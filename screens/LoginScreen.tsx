@@ -4,6 +4,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Button from "../components/Button";
 import TextInput from "../components/TextInput";
+import validator from "../utils/validator";
 
 interface LoginProps {}
 
@@ -12,28 +13,15 @@ const Login: React.FC<LoginProps> = ({}) => {
     const { handleChange, handleSubmit, values, errors, touched, handleBlur } =
         useFormik({
             initialValues: { email: "", password: "" },
-            onSubmit(values) {
-                alert(JSON.stringify(values));
+            onSubmit(values, { resetForm }) {
+                navigation.navigate("Root");
+                resetForm({ values: { email: "", password: "" } });
             },
             validate({ email, password }) {
-                let errors: Record<string, string> = {};
-
-                const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-                const valid = regex.test(email);
-
-                if (!valid) {
-                    errors.email = "gecerli email giriniz";
-                }
-
-                if (password.trim().length < 2) {
-                    errors.password = "sifre 3 karakterden fazla olmali";
-                }
-
+                const errors = validator({ email, password });
                 return errors;
             },
         });
-
-    console.log("error", errors);
 
     return (
         <View style={styles.view}>
@@ -64,8 +52,8 @@ const Login: React.FC<LoginProps> = ({}) => {
                     keyboardAppearance='dark'
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
-                    error={errors.email}
-                    touched={touched.email}
+                    error={errors.password}
+                    touched={touched.password}
                     onSubmitEditing={() => handleSubmit()}
                 />
             </View>

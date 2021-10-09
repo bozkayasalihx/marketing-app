@@ -17,19 +17,21 @@ interface TextProps extends TextInputProps {
 const TextInput: React.FC<TextProps> = ({ icon, error, touched, ...otherProps }) => {
     const validationColor = !touched ? "#223e4b" : error ? "#FF5A5F" : "#223e4b";
     return (
-        <View style={styles.view}>
-            <View style={{ padding: 8 }}>
-                <Icon name={icon as any} color={validationColor} size={16} />
+        <>
+            <View style={styles.view}>
+                <View style={{ padding: 8 }}>
+                    <Icon name={icon as any} color={validationColor} size={16} />
+                </View>
+                <View style={{ flex: 1 }}>
+                    <RNTextInput
+                        underlineColorAndroid='transparent'
+                        placeholderTextColor='rgba(34, 62, 75, 0.7)'
+                        {...otherProps}
+                    />
+                </View>
             </View>
-            <View style={{ flex: 1 }}>
-                <RNTextInput
-                    underlineColorAndroid='transparent'
-                    placeholderTextColor='rgba(34, 62, 75, 0.7)'
-                    {...otherProps}
-                />
-                {error ? <Text>{error}</Text> : null}
-            </View>
-        </View>
+            <View>{error && <Text style={{ color: "red" }}>{error}</Text>}</View>
+        </>
     );
 };
 

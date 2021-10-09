@@ -1,14 +1,27 @@
-
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { useFormik } from "formik";
 
 import TextInput from "../components/TextInput";
 import Button from "../components/Button";
+import validator from "../utils/validator";
 interface LoginProps {}
 
 const AdminLoginScreen: React.FC<LoginProps> = ({}) => {
     const navigation = useNavigation();
+
+    const { errors, handleSubmit, handleChange, touched, handleBlur } = useFormik({
+        initialValues: { email: "", password: "" },
+        onSubmit(value, { resetForm }) {
+            navigation.navigate("Root")
+            resetForm({ values: { email: "", password: "" } });
+        },
+        validate({ email, password }) {
+            const errors = validator({ email, password });
+            return errors;
+        },
+    });
 
     return (
         <View style={styles.view}>
@@ -23,7 +36,9 @@ const AdminLoginScreen: React.FC<LoginProps> = ({}) => {
                     autoCompleteType='email'
                     keyboardType='email-address'
                     keyboardAppearance='dark'
-                    returnKeyType='next'
+                    error={errors.email}
+                    touched={touched.email}
+                    onChangeText={handleChange("email")}
                 />
             </View>
             <View style={styles.innerView}>
@@ -34,12 +49,13 @@ const AdminLoginScreen: React.FC<LoginProps> = ({}) => {
                     autoCompleteType='password'
                     autoCapitalize='none'
                     keyboardAppearance='dark'
-                    returnKeyType='go'
-                    returnKeyLabel='go'
+                    error={errors.password}
+                    touched={touched.password}
+                    onChangeText={handleChange("password")}
                 />
             </View>
             <View style={{ display: "flex" }}>
-                <Button label='Oturum Ac' onPress={() => true} />
+                <Button label='Oturum Ac' onPress={handleSubmit} />
             </View>
         </View>
     );

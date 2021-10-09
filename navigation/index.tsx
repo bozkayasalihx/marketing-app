@@ -1,30 +1,26 @@
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-    NavigationContainer,
-    DefaultTheme,
     DarkTheme,
+    DefaultTheme,
+    NavigationContainer,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Pressable } from "react-native";
+import { ColorSchemeName } from "react-native";
 import { Provider } from "react-redux";
-
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import ModalScreen from "../screens/ModalScreen";
-import NotFoundScreen from "../screens/NotFoundScreen";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import AdminLoginScreen from "../screens/AdminScreen";
+import LoginScreen from "../screens/LoginScreen";
+import ReyonScreen from "../screens/ReyonScreen";
+import { store } from "../store";
 import {
     AuthStackParamList,
     RootStackParamList,
     RootTabParamList,
     RootTabScreenProps,
 } from "../types";
-import { store } from "../store";
-import LoginScreen from "../screens/LoginScreen";
-import AdminLoginScreen from "../screens/AdminScreen";
 
 export default function Navigation({
     colorScheme,
@@ -56,14 +52,6 @@ function RootNavigator() {
                 component={BottomTabNavigator}
                 options={{ headerShown: false }}
             />
-            <Stack.Screen
-                name='NotFound'
-                component={NotFoundScreen}
-                options={{ title: "Oops!" }}
-            />
-            <Stack.Group screenOptions={{ presentation: "modal" }}>
-                <Stack.Screen name='Modal' component={ModalScreen} />
-            </Stack.Group>
         </Stack.Navigator>
     );
 }
@@ -89,51 +77,54 @@ function BottomTabNavigator() {
 
     return (
         <BottomTab.Navigator
-            initialRouteName='Admin'
+            initialRouteName='Reyon'
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme].tint,
             }}>
             <BottomTab.Screen
-                name='Admin'
-                component={TabOneScreen}
+                name='Reyon'
+                component={ReyonScreen}
                 options={({ navigation }: RootTabScreenProps<"Admin">) => ({
-                    title: "Tab One",
+                    title: "Reyon",
                     tabBarIcon: ({ color }) => (
-                        <TabBarIcon name='code' color={color} />
-                    ),
-                    headerRight: () => (
-                        <Pressable
-                            onPress={() => navigation.navigate("Modal")}
-                            style={({ pressed }) => ({
-                                opacity: pressed ? 0.5 : 1,
-                            })}>
-                            <FontAwesome
-                                name='info-circle'
-                                size={25}
-                                color={Colors[colorScheme].text}
-                                style={{ marginRight: 15 }}
-                            />
-                        </Pressable>
+                        <TabBarIcon name='home' color={color} />
                     ),
                 })}
             />
             <BottomTab.Screen
-                name='Reyon'
-                component={TabTwoScreen}
-                options={{
-                    title: "Tab Two",
+                name='Sepet'
+                component={ReyonScreen}
+                options={({ navigation }: RootTabScreenProps<"Admin">) => ({
+                    title: "Sepet",
                     tabBarIcon: ({ color }) => (
-                        <TabBarIcon name='code' color={color} />
+                        <TabBarIcon name='shopping-cart' color={color} />
                     ),
-                }}
+                })}
+            />
+            <BottomTab.Screen
+                name='HesapDokumu'
+                component={ReyonScreen}
+                options={({ navigation }: RootTabScreenProps<"Admin">) => ({
+                    title: "Hesap Dokumu",
+                    tabBarIcon: ({ color }) => (
+                        <Entypo name='text-document' color={color} size={30} />
+                    ),
+                })}
+            />
+            <BottomTab.Screen
+                name='Admin'
+                component={ReyonScreen}
+                options={({ navigation }: RootTabScreenProps<"Admin">) => ({
+                    title: "Admin",
+                    tabBarIcon: ({ color }) => (
+                        <MaterialIcons name='security' color={color} size={30} />
+                    ),
+                })}
             />
         </BottomTab.Navigator>
     );
 }
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
     color: string;
