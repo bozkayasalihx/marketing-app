@@ -26,7 +26,7 @@
     "expo-sqlite": "~9.2.1",
     "expo-status-bar": "~1.0.4",
     "expo-web-browser": "~9.2.0",
-    "native-base": "^3.2.0",
+    "formik": "^2.2.9",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
@@ -36,8 +36,11 @@
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
     "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.5",
     "styled-components": "^5.3.1",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "typeorm": "^0.2.38",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
