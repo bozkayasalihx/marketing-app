@@ -1,75 +1,60 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { fetchProducts, Idata } from "../features/productsSlice";
+import React, { useEffect } from "react";
+import {
+    SafeAreaView,
+    View,
+    FlatList,
+    StyleSheet,
+    Text,
+    StatusBar,
+} from "react-native";
 import Chart from "../components/Chart";
+import { fetchProducts, Idata } from "../features/productsSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-interface ReyonScreenProps {}
-
-const ReyonScreen: React.FC<ReyonScreenProps> = () => {
+export default function ReyonScreen() {
     const dispatch = useAppDispatch();
-    const [data, setData] = useState<Idata[]>([]);
 
-    // useEffect(() => {
-    //     dispatch(fetchProducts());
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
 
-    useLayoutEffect(() => {
-        const inner = async () => {
-            const data = await dispatch(fetchProducts()).unwrap();
-            setData(data);
-        };
-        inner();
-    }, [dispatch, fetchProducts]);
+    const data = useAppSelector(state => state.products.data);
 
-    // const { data, error, status } = useAppSelector(state => state.products);
-
-    // const newData = data.slice(0, 5);
-    // console.log("newData", newData);
-
-    // if (status === "pending") {
-    //     <View style={styles.view}>
-    //         <Text>...loading</Text>
-    //     </View>;
-    // }
-
-    // if (status === "rejected") {
-    //     <View style={styles.view}>
-    //         <Text>{error}</Text>
-    //     </View>;
-    // }
+    const renderItem = ({ item }: { item: Idata }) => (
+        <Chart
+            perPrice={item.perPrice}
+            productName={item.productName}
+            total={item.total}
+        />
+    );
 
     return (
-        <View style={styles.view}>
+        <View>
             {data.length > 0 && (
-                <FlatList
-                    data={data}
-                    pagingEnabled
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => (
-                        <Chart
-                            productName={item.productName}
-                            perPrice={item.perPrice}
-                            total={item.total}
-                        />
-                    )}
-                    scrollEnabled
-                />
-                // <Text>james is bset</Text>
+                <View style={styles.container}>
+                    <FlatList
+                        data={data}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    />
+                </View>
             )}
-            <Text>salih</Text>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
-    view: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        marginTop: StatusBar.currentHeight || 0,
+    },
+    item: {
+        backgroundColor: "#f9c2ff",
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+    },
+    title: {
+        fontSize: 32,
     },
 });
-
-export default ReyonScreen;
-
-// endpoint = https://615df41e12571a00172079c7.mockapi.io/:endpoint

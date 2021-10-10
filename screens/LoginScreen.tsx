@@ -61,7 +61,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                 <Button label='Oturum Ac' onPress={handleSubmit} />
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate("Auth");
+                        navigation.navigate("Admin");
                     }}>
                     <Text style={{ marginTop: 10, textAlign: "center" }}>
                         Admin Giris
