@@ -1,32 +1,32 @@
-import { useNavigation } from "@react-navigation/native";
-import { useFormik, validateYupSchema } from "formik";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Button from "../components/Button";
-import TextInput from "../components/TextInput";
-import validator from "../utils/validator";
+import { useNavigation } from "@react-navigation/native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { useFormik } from "formik";
 
+import TextInput from "../components/TextInput";
+import Button from "../components/Button";
+import validator from "../utils/validator";
 interface LoginProps {}
 
-const Login: React.FC<LoginProps> = ({}) => {
+const AdminLoginScreen: React.FC<LoginProps> = ({}) => {
     const navigation = useNavigation();
-    const { handleChange, handleSubmit, values, errors, touched, handleBlur } =
-        useFormik({
-            initialValues: { email: "", password: "" },
-            onSubmit(values, { resetForm }) {
-                navigation.navigate("Root");
-                resetForm({ values: { email: "", password: "" } });
-            },
-            validate({ email, password }) {
-                const errors = validator({ email, password });
-                return errors;
-            },
-        });
+
+    const { errors, handleSubmit, handleChange, touched, handleBlur } = useFormik({
+        initialValues: { email: "", password: "" },
+        onSubmit(value, { resetForm }) {
+            navigation.navigate("Root")
+            resetForm({ values: { email: "", password: "" } });
+        },
+        validate({ email, password }) {
+            const errors = validator({ email, password });
+            return errors;
+        },
+    });
 
     return (
         <View style={styles.view}>
             <Text style={{ color: "#223e4b", fontSize: 20, marginBottom: 16 }}>
-                User Login
+                Admin Login
             </Text>
             <View style={styles.innerView}>
                 <TextInput
@@ -36,10 +36,9 @@ const Login: React.FC<LoginProps> = ({}) => {
                     autoCompleteType='email'
                     keyboardType='email-address'
                     keyboardAppearance='dark'
-                    onBlur={handleBlur("email")}
-                    onChangeText={handleChange("email")}
                     error={errors.email}
                     touched={touched.email}
+                    onChangeText={handleChange("email")}
                 />
             </View>
             <View style={styles.innerView}>
@@ -50,23 +49,13 @@ const Login: React.FC<LoginProps> = ({}) => {
                     autoCompleteType='password'
                     autoCapitalize='none'
                     keyboardAppearance='dark'
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
                     error={errors.password}
                     touched={touched.password}
-                    onSubmitEditing={() => handleSubmit()}
+                    onChangeText={handleChange("password")}
                 />
             </View>
             <View style={{ display: "flex" }}>
                 <Button label='Oturum Ac' onPress={handleSubmit} />
-                <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate("Auth");
-                    }}>
-                    <Text style={{ marginTop: 10, textAlign: "center" }}>
-                        Admin Giris
-                    </Text>
-                </TouchableOpacity>
             </View>
         </View>
     );
@@ -86,4 +75,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default AdminLoginScreen;

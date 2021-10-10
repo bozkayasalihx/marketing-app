@@ -2,9 +2,13 @@ import React, { useState, useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Button from "./Button";
 
-interface CartProps {}
+interface CartProps {
+    productName: string;
+    total: string;
+    perPrice: string;
+}
 
-const Cart: React.FC<CartProps> = ({}) => {
+const Chart: React.FC<CartProps> = ({ productName, total, perPrice }) => {
     const [count, setCount] = useState<number>(0);
     const handleDecrease = useCallback(() => {
         if (count > 0) {
@@ -18,9 +22,9 @@ const Cart: React.FC<CartProps> = ({}) => {
     return (
         <View style={styles.container}>
             <View style={styles.flex}>
-                <Text>Ektra Elmali</Text>
-                <Text>Kalan</Text>
-                <Text>1.50</Text>
+                <Text>{productName}</Text>
+                <Text>{total}</Text>
+                <Text>{perPrice}</Text>
             </View>
             <View style={styles.flex}>
                 <Button label='-' onPress={handleDecrease} width={40} height={30} />
@@ -33,7 +37,8 @@ const Cart: React.FC<CartProps> = ({}) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: "84%",
+        width: "85vw",
+        marginHorizontal: "auto",
         height: 70,
         backgroundColor: "#00A19D",
         borderRadius: 10,
@@ -45,4 +50,4 @@ const styles = StyleSheet.create({
         overflow: "hidden",
     },
 });
-export default React.memo(Cart);
+export default React.memo(Chart);

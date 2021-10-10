@@ -1,9 +1,9 @@
-import { FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
     DarkTheme,
     DefaultTheme,
-    NavigationContainer,
+    NavigationContainer
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
@@ -11,15 +11,18 @@ import { ColorSchemeName } from "react-native";
 import { Provider } from "react-redux";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import AdminLoginScreen from "../screens/AdminScreen";
+import AdminLoginScreen from "../screens/AdminLoginScreen";
+import AdminScreen from "../screens/AdminScreen";
+import HesapDokum from "../screens/HesapDokum";
 import LoginScreen from "../screens/LoginScreen";
 import ReyonScreen from "../screens/ReyonScreen";
+import SepetScreen from "../screens/SepetScreen";
 import { store } from "../store";
 import {
     AuthStackParamList,
     RootStackParamList,
     RootTabParamList,
-    RootTabScreenProps,
+    RootTabScreenProps
 } from "../types";
 
 export default function Navigation({
@@ -93,7 +96,7 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name='Sepet'
-                component={ReyonScreen}
+                component={SepetScreen}
                 options={({ navigation }: RootTabScreenProps<"Admin">) => ({
                     title: "Sepet",
                     tabBarIcon: ({ color }) => (
@@ -103,7 +106,7 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name='HesapDokumu'
-                component={ReyonScreen}
+                component={HesapDokum}
                 options={({ navigation }: RootTabScreenProps<"Admin">) => ({
                     title: "Hesap Dokumu",
                     tabBarIcon: ({ color }) => (
@@ -113,7 +116,7 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name='Admin'
-                component={ReyonScreen}
+                component={AdminScreen}
                 options={({ navigation }: RootTabScreenProps<"Admin">) => ({
                     title: "Admin",
                     tabBarIcon: ({ color }) => (
