@@ -1,1 +1,1 @@
-# marketting app for resume usage only
+# Simple Marketing app for ordering food and groceries
